@@ -11,11 +11,11 @@ Backend independiente del catálogo. Tiene su propio repositorio, dependencias y
 
 ## Base y comunicación
 
-Este servicio usa exclusivamente la base noir_productos del clúster original de Atlas. Usuarios e Inventario tienen sus propios clústeres. No hace falta una cuenta Atlas nueva para cada servicio.
+Este servicio usa exclusivamente la base noir_productos en un clúster dedicado de Atlas. Usuarios e Inventario tienen otros clústeres. Los tres backends tienen repositorios, despliegues y bases independientes.
 
 Productos guarda nombre, categoría, descripción, precio e imagen. Las cantidades se consultan y modifican a través de la API HTTP de Inventario. No accede a su base.
 
-DATABASE_URL contiene la conexión y DATABASE_NAME debe ser noir_productos. No se usa MONGO_URI como alternativa. La restricción del código a esta base no reemplaza los permisos del usuario de Atlas. Para limitar también las credenciales, asignar a su usuario únicamente readWrite sobre noir_productos.
+DATABASE_URL contiene la conexión y DATABASE_NAME debe ser noir_productos. No se usa MONGO_URI como alternativa. El usuario noir_productos_app tiene únicamente readWrite sobre noir_productos. Al configurar otro entorno, conservar esa restricción.
 
 JWT_SECRET permite validar los tokens emitidos por Usuarios. INTERNAL_SERVICE_SECRET autoriza las llamadas a Inventario. Ambos deben coincidir con los servicios correspondientes.
 
