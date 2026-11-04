@@ -42,4 +42,4 @@ Usar este repositorio, rama main, Build Command npm ci y Start Command npm start
 - DELETE /products/:id elimina el producto y su inventario, requiere JWT
 - GET /health informa si la base está conectada
 
-Las compensaciones intentan restaurar la consistencia si falla una operación entre servicios. No son una transacción distribuida. npm test verifica la configuración y el aislamiento del arranque.
+Las compensaciones intentan restaurar la consistencia si falla una operación entre servicios. No son una transacción distribuida. 
