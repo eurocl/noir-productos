@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Product from "./models/Product.js";
 import auth from "./middleware/auth.js";
+import requireAdmin from "./middleware/admin.js";
 import { createApi } from "./runtime.js";
 import { requestService } from "./client.js";
 
@@ -21,7 +22,7 @@ export function createProductsApp() {
       res.json(product);
     } catch { res.status(500).json({ message: "No se pudo consultar el producto" }); }
   });
-  app.post("/products", auth, async (req, res) => {
+  app.post("/products", auth, requireAdmin, async (req, res) => {
     const { name, category, description, price, image, stock = 0 } = req.body || {};
     if (![name, category, description, image].every(value => typeof value === "string" && value.trim()) ||
         typeof price !== "number" || !Number.isFinite(price) || price < 0 || !Number.isSafeInteger(stock) || stock < 0) {
@@ -40,7 +41,7 @@ export function createProductsApp() {
       res.status(error.status || 500).json({ message: "No se pudo confirmar la creación del producto", productId: id });
     }
   });
-  app.delete("/products/:id", auth, async (req, res) => {
+  app.delete("/products/:id", auth, requireAdmin, async (req, res) => {
     let inventory;
     try {
       const product = await Product.findById(req.params.id);

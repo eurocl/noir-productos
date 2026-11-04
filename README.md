@@ -38,8 +38,10 @@ Usar este repositorio, rama main, Build Command npm ci y Start Command npm start
 
 - GET /products lista el catálogo
 - GET /products/:id consulta un producto
-- POST /products crea un producto y su inventario inicial, requiere JWT
-- DELETE /products/:id elimina el producto y su inventario, requiere JWT
+- POST /products crea un producto y su inventario inicial, requiere JWT con rol admin
+- DELETE /products/:id elimina el producto y su inventario, requiere JWT con rol admin
 - GET /health informa si la base está conectada
 
 Las compensaciones intentan restaurar la consistencia si falla una operación entre servicios. No son una transacción distribuida. 
+
+Sin token válido se devuelve 401. Con un token de cliente o antiguo sin rol se devuelve 403 antes de modificar productos o inventario. Las consultas públicas no cambian. El rol se toma exclusivamente del JWT firmado por Usuarios, nunca del cuerpo o de un encabezado de rol enviado por el cliente. Los permisos del token duran hasta su vencimiento de una hora.
